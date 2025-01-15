@@ -120,6 +120,6 @@ app.listen(3000, () => {
   
 export  {app}       
 
-export default (req, res) => {
-  server(req, res);  // Vercel handles requests this way for serverless functions
-};
+// export default (req, res) => {
+//   server(req, res);  // Vercel handles requests this way for serverless functions
+// };
