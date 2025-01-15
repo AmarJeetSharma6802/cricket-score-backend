@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp-Like Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e5ddd5;
+        }
+        #chat-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            justify-content: flex-end;
+        }
+        #messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-bottom: 10px;
+        }
+        #message-input-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        #message-input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            outline: none;
+        }
+        #send-btn {
+            width: 15%;
+            padding: 10px;
+            background-color: #25D366; 
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            outline: none;
+        }
+        #send-btn:hover {
+            background-color: #128C7E;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 20px;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #DCF8C6;
+            align-self: flex-end;
+            margin-left: auto;
+            font-size: 14px;
+        }
+        .other-message {
+            background-color: #fff;
+            align-self: flex-start;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+        .message-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .username {
+            font-weight: bold;
+            color: #4d4d4d;
+        }
+        .message-time {
+            font-size: 10px;
+            color: #9e9e9e;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat-container">
+        <div id="messages"></div>
+        
+        <!-- Message input area -->
+        <div id="message-input-container">
+            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io(); // Connect to the server via Socket.io
+        const sendBtn = document.getElementById('send-btn');
+        const messageInput = document.getElementById('message-input');
+        const messagesContainer = document.getElementById('messages');
+        
+        // When user presses "Send" button
+        sendBtn.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                const messageData = {
+                    username: "You",  
+                    message,
+                    time: new Date().toLocaleTimeString()
+                };
+                socket.emit('user-message', messageData);  
+                displayMessage(messageData, 'user-message');
+                messageInput.value = ''; 
+            }
+        });
+
+        // When user presses Enter key
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click(); // Simulate button click on "Enter"
+            }
+        });
+
+        // Handle incoming messages from other clients
+        socket.on('new-message', (messageData) => {
+            displayMessage(messageData, 'other-message');
+        });
+
+        // Function to display a message in the chat window
+        function displayMessage({ username, message, time }, messageType) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', messageType);
+            
+            // Create message content
+            const messageContent = document.createElement('div');
+            messageContent.innerHTML = `<span class="username">${username}</span><br/>${message}<br/><span class="message-time">${time}</span>`;
+            
+            messageElement.appendChild(messageContent);
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; 
+        }
+    </script>
+
+</body>
+</html>
