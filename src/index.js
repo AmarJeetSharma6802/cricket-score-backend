@@ -10,7 +10,7 @@ const app = express();
 dotenv.config();
 app.use(express.json()); 
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: ["http://localhost:5173","https://cricket-score-backend-lac.vercel.app"], 
   credentials: true, 
 }));
 connectDb(); 
@@ -19,7 +19,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173","https://cricket-score-backend-lac.vercel.app"],
     methods: ["GET", "POST"], 
     credentials: true, 
   },
