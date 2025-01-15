@@ -23,6 +23,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"], 
     credentials: true, 
   },
+  transports: ['polling'],
 }); 
 
 app.post("/updateScore", async (req, res) => {
@@ -113,5 +114,12 @@ app.delete("/getScoresDelete/:id",async(req,res)=>{
 app.listen(3000, () => {
   console.log("App is listening on port 3000");
 });
+// server.listen(3000, () => {
+//   console.log("App is listening on port 3000");
+// });
   
-export default app       
+export  {app}       
+
+export default (req, res) => {
+  server(req, res);  // Vercel handles requests this way for serverless functions
+};
