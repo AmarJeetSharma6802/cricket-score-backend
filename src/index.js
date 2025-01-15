@@ -110,7 +110,7 @@ app.delete("/getScoresDelete/:id",async(req,res)=>{
 
 })
 
-server.listen(3000, () => {
+app.listen(3000, () => {
   console.log("App is listening on port 3000");
 });
   
