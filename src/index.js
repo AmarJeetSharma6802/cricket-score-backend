@@ -10,7 +10,8 @@ const app = express();
 dotenv.config();
 app.use(express.json()); 
 app.use(cors({
-  origin: "https://cricket-score-tawny.vercel.app", 
+  origin: "http://localhost:5173",
+  // origin: "https://cricket-score-tawny.vercel.app", 
   credentials: true, 
 }));
 connectDb(); 
@@ -19,8 +20,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    // origin: "http://localhost:5173",
-    origin: "https://cricket-score-tawny.vercel.app",
+    origin: "http://localhost:5173",
+    // origin: "https://cricket-score-tawny.vercel.app",
     methods: ["GET", "POST"], 
     credentials: true, 
   },
