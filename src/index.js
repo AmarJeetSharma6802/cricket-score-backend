@@ -11,7 +11,7 @@ dotenv.config();
 app.use(express.json()); 
 
 app.use(cors({
-  origin: ["http://localhost:5173","https://cricket-score-backend-lac.vercel.app"], 
+  origin: "http://localhost:5173", 
   credentials: true, 
 }));
 connectDb(); 
@@ -119,8 +119,8 @@ server.listen(3000, () => {
   console.log("App is listening on port 3000");
 });
   
-export  {app}    
+export default app  
 
-export default (req, res) => {
-  server(req, res);  // Vercel handles requests this way for serverless functions
-};
+// export default (req, res) => {
+//   server(req, res);  // Vercel handles requests this way for serverless functions
+// };
