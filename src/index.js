@@ -9,6 +9,7 @@ import { Server } from 'socket.io';
 const app = express();
 dotenv.config();
 app.use(express.json()); 
+
 app.use(cors({
   origin: ["http://localhost:5173","https://cricket-score-backend-lac.vercel.app"], 
   credentials: true, 
@@ -111,12 +112,12 @@ app.delete("/getScoresDelete/:id",async(req,res)=>{
 
 })
 
-app.listen(3000, () => {
-  console.log("App is listening on port 3000");
-});
-// server.listen(3000, () => {
+// app.listen(3000, () => {
 //   console.log("App is listening on port 3000");
 // });
+server.listen(3000, () => {
+  console.log("App is listening on port 3000");
+});
   
 export  {app}    
 
