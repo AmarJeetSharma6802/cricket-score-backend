@@ -20,16 +20,18 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // Replace with your frontend's URL
     methods: ["GET", "POST"], 
     credentials: true, 
   },
-  transports: ["websocket", "polling"],
+  path: '/socket.io', // Ensure this matches your frontend's connection URL
+  transports: ["websocket", "polling"], 
 }); 
+
 
 app.post("/updateScore", async (req, res) => {
   const { matchId, over, runs, batsman,batsmanScore,NonstickerBatsman,NonstickerBatsmanScore, bowler, extras,wicket,firstBall,SecondBall,ThirdBall,fourthBall,fifthBall,sixthBall } = req.body;
-  console.log("Request received:", req.body);
+  // console.log("Request received:", req.body);
 
   try {
     const newScore = new Score({
